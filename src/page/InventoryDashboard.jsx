@@ -6,7 +6,7 @@ import {
   ncrData,
   expiryData,
   transactions,
-  asnGrnData 
+  asnGrnData
 } from "../data/inventoryData";
 
 import KpiCard from "../components/KpiCard";
@@ -21,22 +21,28 @@ import AsnGrnTable from "../components/AsnGrnTable";
 import GenealogyTraceabilityReport from "../components/GenealogyTraceabilityReport";
 
 
-export default function   InventoryDashboard() {
+export default function InventoryDashboard() {
 
-  
 
-   const handleLogout = () => {
-  window.location.href = "https://electraev.vercel.app";
-};
+
+  const handleLogout = () => {
+    window.location.href = "https://electraev.vercel.app";
+  };
 
 
   return (
     <div className="p-6 space-y-6 bg-gray-100 min-h-screen">
 
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-gray-900">
-          Inventory Dashboard
-        </h1>
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight text-gray-900">
+            Electra EV
+            <span className="ml-2 text-gray-900 font-medium">
+              Inventory Dashboard
+            </span>
+          </h1>
+          
+        </div>
 
         <button
           onClick={handleLogout}
@@ -53,9 +59,9 @@ export default function   InventoryDashboard() {
         ))}
       </div>
 
-      
 
-      
+
+
       <Tabs
         tabs={[
           { label: "Overview", value: "overview" },
@@ -68,7 +74,7 @@ export default function   InventoryDashboard() {
       >
         {(activeTab) => (
           <>
-           
+
             {activeTab === "overview" && (
               <div className="grid md:grid-cols-2 gap-6">
                 <StockStatusChart data={stockStatusData} />
