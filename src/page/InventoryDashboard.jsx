@@ -18,6 +18,7 @@ import ExpiryTable from "../components/ExpiryTable";
 import TransactionsTable from "../components/TransactionsTable";
 import Tabs from "../components/Tabs";
 import AsnGrnTable from "../components/AsnGrnTable";
+import GenealogyTraceabilityReport from "../components/GenealogyTraceabilityReport";
 
 
 export default function   InventoryDashboard() {
@@ -54,19 +55,20 @@ export default function   InventoryDashboard() {
 
       
 
-      {/* TAB SECTION */}
+      
       <Tabs
         tabs={[
           { label: "Overview", value: "overview" },
           { label: "Inventory", value: "inventory" },
           { label: "Inbound (ASN → GRN)", value: "asn-grn" },
           { label: "Quality", value: "quality" },
+          { label: "Genealogy Traceability Report", value: "genealogy" },
           { label: "Transactions", value: "transactions" }
         ]}
       >
         {(activeTab) => (
           <>
-            {/* OVERVIEW TAB */}
+           
             {activeTab === "overview" && (
               <div className="grid md:grid-cols-2 gap-6">
                 <StockStatusChart data={stockStatusData} />
@@ -94,6 +96,10 @@ export default function   InventoryDashboard() {
             {/* TRANSACTIONS TAB */}
             {activeTab === "transactions" && (
               <TransactionsTable data={transactions} />
+            )}
+
+            {activeTab === "genealogy" && (
+              <GenealogyTraceabilityReport />
             )}
           </>
         )}
