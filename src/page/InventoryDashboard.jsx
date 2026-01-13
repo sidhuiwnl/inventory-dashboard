@@ -18,10 +18,35 @@ import ExpiryTable from "../components/ExpiryTable";
 import TransactionsTable from "../components/TransactionsTable";
 import Tabs from "../components/Tabs";
 import AsnGrnTable from "../components/AsnGrnTable";
+import { useNavigate } from "react-router-dom";
 
 export default function   InventoryDashboard() {
+
+  const navigate = useNavigate();
+
+    const handleLogout = () => {
+    // Optional: clear auth state
+    localStorage.removeItem("isLoggedIn");
+
+    navigate("/", { replace: true });
+  };
+
+
   return (
     <div className="p-6 space-y-6 bg-gray-100 min-h-screen">
+
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-gray-900">
+          Inventory Dashboard
+        </h1>
+
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+        >
+          Logout
+        </button>
+      </div>
 
       {/* KPI SECTION */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
@@ -29,6 +54,8 @@ export default function   InventoryDashboard() {
           <KpiCard key={k.title} {...k} />
         ))}
       </div>
+
+      
 
       {/* TAB SECTION */}
       <Tabs
