@@ -16,11 +16,16 @@ import { useNavigate } from "react-router-dom";
       navigate("/inventory");
     }, 500);
   };
+
+  const handleLogout = () => {
+  window.location.href = "https://electraev.vercel.app";
+};
+
   return (
     <div className="min-h-screen bg-[#F1F5F9] flex flex-col items-center justify-center p-6 font-sans">
       {/* Back Link */}
       <div className="absolute top-8 left-8">
-        <button className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors">
+        <button onClick={handleLogout} className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors">
           <ArrowLeft className="h-3 w-3" />
           Back to Modules
         </button>

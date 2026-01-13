@@ -18,18 +18,15 @@ import ExpiryTable from "../components/ExpiryTable";
 import TransactionsTable from "../components/TransactionsTable";
 import Tabs from "../components/Tabs";
 import AsnGrnTable from "../components/AsnGrnTable";
-import { useNavigate } from "react-router-dom";
+
 
 export default function   InventoryDashboard() {
 
-  const navigate = useNavigate();
+  
 
-    const handleLogout = () => {
-    // Optional: clear auth state
-    localStorage.removeItem("isLoggedIn");
-
-    navigate("/", { replace: true });
-  };
+   const handleLogout = () => {
+  window.location.href = "https://electraev.vercel.app";
+};
 
 
   return (
