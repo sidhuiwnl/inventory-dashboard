@@ -16,10 +16,10 @@ export default function NcrTable({ data }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm w-full">
       
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <h3 className="text-base font-semibold text-gray-900">
             Non-Conformance Reports (NCR)
@@ -36,8 +36,8 @@ export default function NcrTable({ data }) {
         )}
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Desktop / Tablet Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
@@ -68,15 +68,12 @@ export default function NcrTable({ data }) {
                 <td className="px-6 py-3 font-medium text-gray-900">
                   {ncr.id}
                 </td>
-
-                <td className="px-6 py-3 text-gray-700">
+                <td className="px-6 py-3 text-gray-700 break-words">
                   {ncr.item}
                 </td>
-
-                <td className="px-6 py-3 text-gray-700">
+                <td className="px-6 py-3 text-gray-700 break-words">
                   {ncr.supplier}
                 </td>
-
                 <td className="px-6 py-3 text-center">
                   <span
                     className={`inline-flex px-2 py-0.5 rounded text-xs font-semibold ${getStatusStyle(
@@ -86,7 +83,6 @@ export default function NcrTable({ data }) {
                     {ncr.status}
                   </span>
                 </td>
-
                 <td className="px-6 py-3 text-right">
                   <span className={getAgingStyle(ncr.days)}>
                     {ncr.days}
@@ -98,9 +94,60 @@ export default function NcrTable({ data }) {
         </table>
       </div>
 
+      {/* Mobile / Small Device Cards */}
+      <div className="md:hidden divide-y divide-gray-100">
+        {data.map(ncr => (
+          <div key={ncr.id} className="p-4 space-y-3 text-sm">
+            
+            {/* Top Row */}
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 truncate">
+                  NCR #{ncr.id}
+                </p>
+                <p className="text-xs text-gray-500 truncate">
+                  {ncr.supplier}
+                </p>
+              </div>
+              <span
+                className={`inline-flex px-2 py-0.5 rounded text-xs font-semibold shrink-0 ${getStatusStyle(
+                  ncr.status
+                )}`}
+              >
+                {ncr.status}
+              </span>
+            </div>
+
+            {/* Item */}
+            <div>
+              <p className="text-gray-500 text-xs">Item</p>
+              <p className="font-medium text-gray-900 break-words">
+                {ncr.item}
+              </p>
+            </div>
+
+            {/* Aging */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-500 text-xs">Aging</p>
+                <p className={getAgingStyle(ncr.days)}>
+                  {ncr.days} days
+                </p>
+              </div>
+
+              {ncr.days > 14 && (
+                <span className="text-xs font-semibold text-red-600">
+                  Attention required
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Footer */}
-      <div className="px-6 py-3 text-sm text-gray-500">
-        {data.length} NCRs tracked • Aging based quality risk monitoring
+      <div className="px-4 sm:px-6 py-3 text-sm text-gray-500">
+        {data.length} NCRs tracked • Aging-based quality risk monitoring
       </div>
     </div>
   );

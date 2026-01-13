@@ -18,11 +18,19 @@ export default function ExpiryTable({ data }) {
     return "bg-emerald-100 text-emerald-700";
   };
 
+  const getStatusLabel = (days) => {
+    if (days <= 0) return "EXPIRED";
+    if (days <= 7) return "CRITICAL";
+    if (days <= 15) return "WARNING";
+    if (days <= 30) return "SOON";
+    return "SAFE";
+  };
+
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm w-full">
       
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <h3 className="text-base font-semibold text-gray-900">
             Expiry & Shelf-Life Monitoring
@@ -44,8 +52,8 @@ export default function ExpiryTable({ data }) {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Desktop / Tablet Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
@@ -73,11 +81,11 @@ export default function ExpiryTable({ data }) {
                 key={row.batch}
                 className="border-b border-gray-100 hover:bg-gray-50"
               >
-                <td className="px-6 py-3 font-medium text-gray-900">
+                <td className="px-6 py-3 font-medium text-gray-900 break-words">
                   {row.item}
                 </td>
 
-                <td className="px-6 py-3 font-mono text-gray-700">
+                <td className="px-6 py-3 font-mono text-gray-700 break-all">
                   {row.batch}
                 </td>
 
@@ -97,15 +105,7 @@ export default function ExpiryTable({ data }) {
                       row.daysLeft
                     )}`}
                   >
-                    {row.daysLeft <= 0
-                      ? "EXPIRED"
-                      : row.daysLeft <= 7
-                      ? "CRITICAL"
-                      : row.daysLeft <= 15
-                      ? "WARNING"
-                      : row.daysLeft <= 30
-                      ? "SOON"
-                      : "SAFE"}
+                    {getStatusLabel(row.daysLeft)}
                   </span>
                 </td>
               </tr>
@@ -114,8 +114,58 @@ export default function ExpiryTable({ data }) {
         </table>
       </div>
 
+      {/* Mobile Cards */}
+      <div className="md:hidden divide-y divide-gray-100">
+        {data.map(row => (
+          <div key={row.batch} className="p-4 space-y-3 text-sm">
+            
+            {/* Top Row */}
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 truncate">
+                  {row.item}
+                </p>
+                <p className="text-xs text-gray-500 truncate">
+                  Batch: {row.batch}
+                </p>
+              </div>
+              <span
+                className={`inline-flex px-2 py-0.5 rounded text-xs font-semibold shrink-0 ${getStatusBadge(
+                  row.daysLeft
+                )}`}
+              >
+                {getStatusLabel(row.daysLeft)}
+              </span>
+            </div>
+
+            {/* Expiry Info */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-gray-500 text-xs">Expiry Date</p>
+                <p className="text-gray-900">
+                  {row.expiryDate || "—"}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-gray-500 text-xs">Days Left</p>
+                <p className={getAgingStyle(row.daysLeft)}>
+                  {row.daysLeft}
+                </p>
+              </div>
+            </div>
+
+            {row.daysLeft <= 15 && (
+              <p className="text-xs font-semibold text-red-600">
+                Action required (consume or block)
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+
       {/* Footer */}
-      <div className="px-6 py-3 text-sm text-gray-500">
+      <div className="px-4 sm:px-6 py-3 text-sm text-gray-500">
         {data.length} batches monitored • FIFO & quality compliance
       </div>
     </div>

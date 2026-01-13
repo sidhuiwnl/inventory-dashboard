@@ -35,10 +35,10 @@ export default function StockLocationChart({ data }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+    <div className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6 shadow-sm">
       
       {/* Header */}
-      <div className="mb-5">
+      <div className="mb-4">
         <h3 className="text-base font-semibold text-gray-900">
           Stock by Location
         </h3>
@@ -48,11 +48,16 @@ export default function StockLocationChart({ data }) {
       </div>
 
       {/* Chart */}
-      <div className="h-64">
+      <div className="h-56 sm:h-64">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
-            margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+            margin={{
+              top: 10,
+              right: 20,
+              left: 0,
+              bottom: 40 // extra for rotated labels
+            }}
           >
             <CartesianGrid
               stroke="#E5E7EB"
@@ -64,18 +69,32 @@ export default function StockLocationChart({ data }) {
               dataKey="location"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#6B7280", fontSize: 12 }}
+              interval={0}
+              tick={{
+                fill: "#6B7280",
+                fontSize: 11
+              }}
+              angle={-30}
+              textAnchor="end"
+              height={50}
             />
 
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "#6B7280", fontSize: 12 }}
+              tick={{
+                fill: "#6B7280",
+                fontSize: 11
+              }}
             />
 
             <Tooltip content={<CustomTooltip />} />
 
-            <Bar dataKey="qty" radius={[4, 4, 0, 0]} barSize={36}>
+            <Bar
+              dataKey="qty"
+              radius={[4, 4, 0, 0]}
+              barSize={24}   // mobile friendly
+            >
               {data.map((_, index) => (
                 <Cell
                   key={index}
@@ -88,7 +107,7 @@ export default function StockLocationChart({ data }) {
       </div>
 
       {/* Footer Insight */}
-      <div className="mt-6 pt-4 border-t border-gray-100 text-sm text-gray-600">
+      <div className="mt-4 pt-3 border-t border-gray-100 text-sm text-gray-600">
         <span className="font-semibold text-gray-900">
           {highest?.location}
         </span>{" "}

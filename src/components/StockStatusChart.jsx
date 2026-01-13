@@ -36,10 +36,10 @@ export default function StockStatusChart({ data }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+    <div className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6 shadow-sm">
       
       {/* Header */}
-      <div className="mb-5">
+      <div className="mb-4">
         <h3 className="text-base font-semibold text-gray-900">
           Stock by Status
         </h3>
@@ -48,62 +48,69 @@ export default function StockStatusChart({ data }) {
         </p>
       </div>
 
-      {/* Chart */}
-      <div className="relative h-60">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={data}
-              dataKey="value"
-              cx="50%"
-              cy="50%"
-              innerRadius={55}
-              outerRadius={80}
-              paddingAngle={1}
-            >
-              {data.map((_, index) => (
-                <Cell
-                  key={index}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Tooltip content={<CustomTooltip />} />
-          </PieChart>
-        </ResponsiveContainer>
+      {/* Content */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        
+        {/* Chart */}
+        <div className="relative h-56 sm:h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                cx="50%"
+                cy="50%"
+                innerRadius="45%"
+                outerRadius="65%"
+                paddingAngle={1}
+              >
+                {data.map((_, index) => (
+                  <Cell
+                    key={index}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip content={<CustomTooltip />} />
+            </PieChart>
+          </ResponsiveContainer>
 
-        {/* Center Value */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-2xl font-bold text-gray-900">
-            {total}
-          </span>
-          <span className="text-xs text-gray-500">
-            Total Items
-          </span>
-        </div>
-      </div>
-
-      {/* Legend */}
-      <div className="mt-6 space-y-2">
-        {data.map((item, index) => (
-          <div
-            key={item.name}
-            className="flex items-center justify-between text-sm"
-          >
-            <div className="flex items-center gap-2">
-              <span
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: COLORS[index % COLORS.length] }}
-              />
-              <span className="text-gray-700">
-                {item.name}
-              </span>
-            </div>
-            <span className="font-medium text-gray-900">
-              {item.value}
+          {/* Center Value */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <span className="text-xl sm:text-2xl font-bold text-gray-900">
+              {total}
+            </span>
+            <span className="text-xs text-gray-500">
+              Total Items
             </span>
           </div>
-        ))}
+        </div>
+
+        {/* Legend */}
+        <div className="space-y-2">
+          {data.map((item, index) => (
+            <div
+              key={item.name}
+              className="flex items-center justify-between text-sm"
+            >
+              <div className="flex items-center gap-2">
+                <span
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{
+                    backgroundColor: COLORS[index % COLORS.length]
+                  }}
+                />
+                <span className="text-gray-700">
+                  {item.name}
+                </span>
+              </div>
+              <span className="font-medium text-gray-900">
+                {item.value}
+              </span>
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   );
